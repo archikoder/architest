@@ -1,0 +1,20 @@
+{
+  "name": "architest",
+  "version": "1.0.0",
+  "description": "ArchiTest implementation for typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./out/test.js",
+    "build": "tsc"
+  },
+  "keywords": [
+    "test",
+    "typescript",
+    "oop"
+  ],
+  "author": "Andry RALAIVAO",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
