@@ -1,4 +1,4 @@
-import { given, test } from "../lib/test";
+import { given, test } from "../lib/Decorator";
 
 export class Converter{
 
@@ -36,25 +36,6 @@ export class ConverterTest extends Converter{
         return 20;
     }
 }
-
-// import { ConverterTests } from 'test';
-
-// describe("dkfdjfk", () => {
-
-//     it("should return correct result", () => {
-//         const converter = new Converter(5);
-//         const result = converter.convert(42);
-
-//         assert(result).isequal(30);
-//     })
-
-//     it("should convert correct net", () => {
-//         const converter = new Converter(5);
-//         const result = converter.net(33);
-
-//         assert(result).isequal(30);
-//     })
-// })
 
 @test
 export class ConverterTest1 extends Converter{

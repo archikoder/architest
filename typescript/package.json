@@ -1,10 +1,10 @@
 {
   "name": "architest",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "ArchiTest implementation for typescript",
   "main": "index.js",
   "scripts": {
-    "test": "node ./out/test.js",
+    "test": "node ./dist/bin/architest",
     "build": "tsc"
   },
   "keywords": [
@@ -15,6 +15,11 @@
   "author": "Andry RALAIVAO",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.11.5",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2"
   }
 }

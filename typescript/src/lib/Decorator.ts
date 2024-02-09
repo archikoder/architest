@@ -10,9 +10,6 @@ export function test(target: any, propretyKey?: any, descriptor?: PropertyDescri
 
         descriptor.value.test = testFunction
     }
-    else{
-        //console.log("class")
-    }
 }
 
 export const given = (value: any) => {

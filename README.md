@@ -19,6 +19,8 @@ npm install --save-dev architest
 ```
 
 ```
+import { test, given } from 'architest';
+
 export class MyClassToBeTested{
 
     private rate: number;
@@ -40,7 +42,7 @@ class MyTest extends MyClassToBeTested{
     }
 
     @test
-    public convert(value = 5){
+    public convert(@given(5) value: number){
         return 10;
     }
 }

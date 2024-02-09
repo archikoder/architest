@@ -1,15 +1,20 @@
-import { Architest } from "../domain/Architect";
+import {
+    AcornParsedProgram,
+    ConsoleValidAssertionHandler,
+    ConsoleInvalidAssertionHandler,
+    NodeProgramFolder,
+    SynchronTestRunner,
+    TsconfigConfiguration
+} from "../lib";
 
-export class TypescriptArchitest implements Architest{
+const runner = new SynchronTestRunner(
+    new AcornParsedProgram(
+        new NodeProgramFolder(
+            new TsconfigConfiguration().programFolder()
+        )
+    ),
+    new ConsoleValidAssertionHandler(),
+    new ConsoleInvalidAssertionHandler()
+);
 
-    run(): string {
-        
-        
-
-        return "done"
-    }
-
-    preprocess(): boolean {
-        return true;
-    }
-}
+runner.run();
