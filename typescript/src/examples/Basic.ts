@@ -1,4 +1,4 @@
-import { given, test } from "../lib/Decorator";
+import { test } from "../lib/Decorator";
 
 export class Converter{
 
@@ -21,38 +21,35 @@ export class Converter{
     }
 }
 
-@test
 export class ConverterTest extends Converter{
 
     rate = 100;
     
     @test
-    convert(@given(5) amount: number) {
+    convert(amount: number = 5) {
         return 500
     }
 
     @test
-    net(@given(40) amount: number): number {
+    net(amount: number = 20): number {
         return 20;
     }
 }
 
-@test
 export class ConverterTest1 extends Converter{
 
     rate = 10;
 
     @test
-    convert(@given(64) amount: number) {
+    convert(amount: number = 64) {
         return 640
     }
 }
 
-@test
 export class ConverterTest2 extends ConverterTest{
 
     @test
-    convert(@given(40) amount: number){
+    convert(amount: number = 40){
         return 4000;
     }
 }

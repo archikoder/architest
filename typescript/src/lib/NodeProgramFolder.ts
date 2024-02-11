@@ -1,16 +1,16 @@
 import { CodeFile } from "../domain/CodeFile";
 import { ProgramFolder } from "../domain/ProgramFolder";
 import { FilesystemCodeFile } from "./FilesystemCodeFile";
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs'
+import * as path from 'path'
 
 export class NodeProgramFolder implements ProgramFolder {
 
-    constructor(private path: string) {}
+    constructor(private _path: string) {}
 
     exportedClasses(extension: string = ".js"): CodeFile[] {
         
-        return traverseDirectory(this.path, this.path, extension);
+        return traverseDirectory(this._path, this._path, extension);
     }
 }
 

@@ -1,17 +1,30 @@
 {
-  "name": "architest",
+  "name": "@archikoder/architest",
   "version": "0.1.0",
   "description": "ArchiTest implementation for typescript",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "architest": "./dist/bin/architest.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "node ./dist/bin/architest",
     "build": "tsc"
   },
   "keywords": [
+    "unit",
+    "integration",
     "test",
     "typescript",
     "oop"
   ],
+  "repository": {
+    "url": "https://github.com/archikoder/architest/tree/main/typescript"
+  },
   "author": "Andry RALAIVAO",
   "license": "MIT",
   "devDependencies": {
