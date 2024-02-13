@@ -1,18 +1,21 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
+
 import { Configuration } from "../domain";
 import {
-    AcornParsedProgram,
     ConsoleValidAssertionHandler,
     ConsoleInvalidAssertionHandler,
     NodeProgramFolder,
     SynchronTestRunner,
-    TsconfigConfiguration
+    SourceTsconfigConfiguration
 } from "../lib";
+import { TypescriptParsedProgram } from "../lib/TypescriptParsedProgram";
 
-const configuration: Configuration = new TsconfigConfiguration();
+const startTime = new Date().getTime();
+
+const configuration: Configuration = new SourceTsconfigConfiguration();
 
 const runner = new SynchronTestRunner(
-    new AcornParsedProgram(
+    new TypescriptParsedProgram(
         new NodeProgramFolder(
             configuration.programFolder()
         ),
@@ -26,3 +29,5 @@ const runner = new SynchronTestRunner(
 console.log("ARCHITEST");
 
 runner.run();
+
+console.log("\nDone in", new Date().getTime() - startTime, "milliseconds")

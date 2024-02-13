@@ -11,12 +11,10 @@ export {
 } from './domain';
 
 export {
-    AcornParsedProgram,
     DefaultTestItem,
     FilesystemCodeFile,
     ConsoleValidAssertionHandler,
     ConsoleInvalidAssertionHandler,
     NodeProgramFolder,
-    SynchronTestRunner,
-    TsconfigConfiguration
+    SynchronTestRunner
 } from './lib';

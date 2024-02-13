@@ -1,19 +1,15 @@
 {
   "name": "@archikoder/architest",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "ArchiTest implementation for typescript",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
     "architest": "./dist/bin/architest.js"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "test": "node ./dist/bin/architest",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "ts-node ./src/bin/architest.ts"
   },
   "keywords": [
     "unit",
@@ -32,7 +28,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "acorn": "^8.11.3",
-    "acorn-walk": "^8.3.2"
+    "ts-node": "^10.9.2"
   }
 }

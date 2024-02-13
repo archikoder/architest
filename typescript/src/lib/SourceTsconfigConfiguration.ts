@@ -4,14 +4,14 @@ const fs = require('fs');
 const DEFAULT_ES_VERSION = "es2020";
 const DEFAULT_PROGRAM_FOLDER = "./";
 
-export class TsconfigConfiguration implements Configuration{
+export class SourceTsconfigConfiguration implements Configuration{
 
     target(): string {
         return this.parseTsConfigFile().compilerOptions?.target || DEFAULT_ES_VERSION;
     }
 
     programFolder(): string {
-        return this.parseTsConfigFile().compilerOptions?.outDir || DEFAULT_PROGRAM_FOLDER;
+        return this.parseTsConfigFile().compilerOptions?.rootDir || DEFAULT_PROGRAM_FOLDER;
     }
 
     private parseTsConfigFile(){

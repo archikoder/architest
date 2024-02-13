@@ -1,64 +1,42 @@
-import * as assert from 'assert'
-
 export function test(target: any, propertyKey?: any, descriptor?: any) {
 
-    // if(propertyKey && descriptor){
-    //     // experimental decorator
-    //     console.log("experimental deco", target)
-    //     const testFunction = descriptor.value;
-
-    //     descriptor.value = function(...args: any[]){
-    //         return target.constructor.prototype.__proto__[propertyKey + ""].call(this, ...args);
-    //     }
-
-    //     descriptor.value.test = testFunction
-
-    //     return descriptor
-    // }
-
     if(propertyKey && descriptor){
-        // experimental decorator
-        console.log("experimental deco", target)
 
-        const testFunction = descriptor.value;
+        const expectedFunction = descriptor.value;
 
-        descriptor.value = function(...args: any[]){
-            console.log("executed descriptor", args)
-            const got = target.constructor.prototype.__proto__[propertyKey + ""].call(this, ...args);
-            const expected = testFunction.call(this, ...args);
-            console.log("Internal", got, expected)
-            return assert.deepStrictEqual(expected, got);
-        }
+        descriptor.value = new Function("return function " + replaceFunctionBody(expectedFunction.toString()))();
+        descriptor.value.test = expectedFunction;
 
-        descriptor.value.test = testFunction
-
-        return descriptor
+        return descriptor;
     }
 
     if(propertyKey && (propertyKey as ClassMethodDecoratorContext).kind === "method" ){
-        // stage 3 decorator
-        console.log("stage 3 deco", target, propertyKey, descriptor);
 
-        const replacement = function(this: any, ...args: any[]): any{
-            console.log("this is executed");
-            console.log(this);
-            console.log(args);
-            const expected = target.call(this, ...args);
-            const got = (this as any).prototype[propertyKey.name].call(this, ...args);
-            return assert.deepStrictEqual(expected, got);
-        }
+        const replacement = new Function("return function " + replaceFunctionBody(target.toString()))();
+        replacement.test = target;
 
-        return replacement
+        return replacement;
     }
 }
 
-// export const given = (value: any) => {
+function replaceFunctionBody(functionString: string): string {
 
-//     return (target: any, propertyKey: any, index: number) => {
+    const functionName = functionString.substring(0, functionString.indexOf('(')).trim();
+    const parametersString = functionString.substring(functionString.indexOf('(') + 1, functionString.indexOf(')')).trim();
+    const parameters = parametersString.split(',').map(param => param.split("=")[0].trim());
 
-//         if (!target[propertyKey].defaults)
-//             target[propertyKey].defaults = [];
+    const replacedBody = `
 
-//         target[propertyKey].defaults[index] = value;
-//     }
-// }
+        const parent = this.constructor.prototype.__proto__;
+        const parentFunction = parent['${functionName}'];
+
+        //console.log(parentFunction);
+
+        if(parentFunction.test)
+            return parent.constructor.prototype.__proto__['${functionName}'].call(this, ${parameters.join(', ')});
+
+        return this.constructor.prototype.__proto__['${functionName}'].call(this, ${parameters.join(', ')});
+    `;
+    
+    return functionString.replace(/(\{[\s\S]*\})/, `{ ${replacedBody} }`);
+}

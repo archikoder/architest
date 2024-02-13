@@ -2,5 +2,5 @@ import { CodeFile } from "./CodeFile";
 
 export interface ProgramFolder{
 
-    exportedClasses(): CodeFile[];
+    exportedClasses(extension?: string): CodeFile[];
 }
