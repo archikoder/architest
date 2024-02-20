@@ -1,6 +1,6 @@
 {
   "name": "@archikoder/architest",
-  "version": "0.3.0",
+  "version": "0.5.1",
   "description": "ArchiTest implementation for typescript",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

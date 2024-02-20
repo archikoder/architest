@@ -43,6 +43,8 @@ function parseFile(file: CodeFile, target: string) {
                 visitNode(node.statements as any);
             } else if (ts.isClassDeclaration(node)){
                 visitNode(node.members as any, { class: node.name?.escapedText })
+            } else if(ts.isAccessor(node)){
+                visitNode(node.modifiers as any || [], { ...parent, method: (node.name as ts.Identifier).escapedText })
             } else if (ts.isMethodDeclaration(node)){
                 visitNode(node.modifiers as any || [], { ...parent, method: (node.name as ts.Identifier).escapedText })
             } else if (ts.isDecorator(node) && (node.expression as any).escapedText === 'test') {

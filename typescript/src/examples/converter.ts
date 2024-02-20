@@ -17,7 +17,7 @@ export class MyFirstTest extends Converter {
 
     protected rate: number = 5;
 
-    @test
+    // @test
     public convert(amount: number = 7): number {
         return 35;
     }

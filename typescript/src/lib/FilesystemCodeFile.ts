@@ -3,7 +3,7 @@ const path = require('path');
 
 export class FilesystemCodeFile implements CodeFile{
 
-    constructor(private filePath: string, private root: string){}
+    constructor(protected filePath: string, protected root: string){}
 
     path(): string {
         return this.filePath;
