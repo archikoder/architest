@@ -3,7 +3,7 @@ import { test } from '../lib/Decorator';
 export class Authenticator{
 
     public async _authenticateUser({login, password}: { login: string, password: string }){
-        return { login, password };
+        throw new Error("user not found")
     }
 }
 

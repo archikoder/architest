@@ -5,7 +5,7 @@ import { DefaultTestItem } from "./DefaultTestItem";
 
 export class TypescriptParsedProgram implements ParsedProgram {
 
-    constructor(private programFolder: ProgramFolder, private target: string) { }
+    constructor(private programFolder: ProgramFolder) { }
 
     tests(): TestItem[] {
 
@@ -14,21 +14,21 @@ export class TypescriptParsedProgram implements ParsedProgram {
         const class_files: CodeFile[] = this.programFolder.exportedClasses(".ts");
 
         for (const file of class_files) {
-            results = results.concat(parseFile(file, this.target));
+            results = results.concat(parseFile(file));
         }
 
         return results;
     }
 }
 
-function parseFile(file: CodeFile, target: string) {
+function parseFile(file: CodeFile) {
 
     const tests: TestItem[] = [];
 
     let ast;
 
     try {
-        ast = ts.createSourceFile(file.path(), fs.readFileSync(file.path(), 'utf-8'), target as any);
+        ast = ts.createSourceFile(file.path(), fs.readFileSync(file.path(), 'utf-8'), ts.ScriptTarget.Latest);
     }
     catch (exception) {
         console.log("Error parsing file", file.path(), exception)

@@ -19,9 +19,7 @@ const runner = new SynchronTestRunner(
     new TypescriptParsedProgram(
         new NodeProgramFolder(
             configuration.programFolder()
-        ),
-        // configuration.target()
-        "ES2022"
+        )
     ),
     configuration,
     new ConsoleValidAssertionHandler(),
@@ -31,6 +29,11 @@ const runner = new SynchronTestRunner(
 
 console.log("ARCHITEST");
 
-runner.run();
+runner.run()
+            .then((done: any) => {
+                console.log("\nDone in", new Date().getTime() - startTime, "milliseconds")
+            })
+            .catch((exception: any) => {
 
-console.log("\nDone in", new Date().getTime() - startTime, "milliseconds")
+            })
+

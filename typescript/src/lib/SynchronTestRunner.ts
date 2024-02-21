@@ -10,7 +10,7 @@ export class SynchronTestRunner implements TestRunner {
         private invalidAssertionHandler: AssertionHandler,
         private invalidFunctionHandler: AssertionHandler) { }
 
-    run(): boolean {
+    async run(): Promise<boolean> {
 
         const testItems = this.program.tests();
 
@@ -35,12 +35,13 @@ export class SynchronTestRunner implements TestRunner {
             let expected;
             try {
 
-                expected = targetFunction.test.call(targetObject);
-
                 if(targetFunction.test.constructor.name === "AsyncFunction"){
-                    expected
+                    await targetFunction.test.call(targetObject)
                         .then((resolved: any) => expected = resolved)
                         .catch((exception: any) => expected = exception)
+                }
+                else{
+                    expected = targetFunction.test.call(targetObject);
                 }
             }
             catch (exception) {
@@ -50,12 +51,13 @@ export class SynchronTestRunner implements TestRunner {
             let got;
             try {
 
-                got = targetFunction.call(targetObject);
-
                 if(targetFunction.constructor.name === "AsyncFunction"){
-                    got
+                    await targetFunction.call(targetObject)
                         .then((resolved: any) => got = resolved)
                         .catch((exception: any) => got = exception)
+                }
+                else{
+                    got = targetFunction.call(targetObject);
                 }
             }
             catch (exception) {

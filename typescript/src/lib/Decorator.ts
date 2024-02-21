@@ -68,6 +68,9 @@ function replaceFunctionBody(_function: string, _metadata: any): Function {
         const parent = this.constructor.prototype.__proto__;
         const parentFunction = parent['${functionName}'];
 
+        if(this.constructor.prototype.__proto__.constructor.name == "Object")
+            console.log("\x1B[33m[WARN] Test class does not extends target class ... Your test could be wrong\x1b[0m:");
+
         if(parentFunction.test)
             return parent.constructor.prototype.__proto__['${functionName}'].call(this, ${parameters.join(', ')});
 
