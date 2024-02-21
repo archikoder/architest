@@ -8,6 +8,7 @@ import {
     SynchronTestRunner,
     SourceTsconfigConfiguration
 } from "../lib";
+import { InvalidFunctionHandler } from "../lib/InvalidFunctionHandler";
 import { TypescriptParsedProgram } from "../lib/TypescriptParsedProgram";
 
 const startTime = new Date().getTime();
@@ -19,11 +20,13 @@ const runner = new SynchronTestRunner(
         new NodeProgramFolder(
             configuration.programFolder()
         ),
-        configuration.target()
+        // configuration.target()
+        "ES2022"
     ),
     configuration,
     new ConsoleValidAssertionHandler(),
-    new ConsoleInvalidAssertionHandler()
+    new ConsoleInvalidAssertionHandler(),
+    new InvalidFunctionHandler()
 );
 
 console.log("ARCHITEST");

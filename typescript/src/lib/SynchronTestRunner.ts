@@ -7,7 +7,8 @@ export class SynchronTestRunner implements TestRunner {
     constructor(private program: ParsedProgram,
         private configuration: Configuration,
         private validAssertionHandler: AssertionHandler,
-        private invalidAssertionHandler: AssertionHandler) { }
+        private invalidAssertionHandler: AssertionHandler,
+        private invalidFunctionHandler: AssertionHandler) { }
 
     run(): boolean {
 
@@ -26,9 +27,21 @@ export class SynchronTestRunner implements TestRunner {
             const targetObject = new targetClass[testItem.class()]();
             const targetFunction = targetObject[testItem.method()];
 
+            if(!targetFunction || !targetFunction.test){
+                this.invalidFunctionHandler.handle(testItem);
+                continue;
+            }
+
             let expected;
             try {
+
                 expected = targetFunction.test.call(targetObject);
+
+                if(targetFunction.test.constructor.name === "AsyncFunction"){
+                    expected
+                        .then((resolved: any) => expected = resolved)
+                        .catch((exception: any) => expected = exception)
+                }
             }
             catch (exception) {
                 expected = exception;
@@ -36,7 +49,14 @@ export class SynchronTestRunner implements TestRunner {
 
             let got;
             try {
+
                 got = targetFunction.call(targetObject);
+
+                if(targetFunction.constructor.name === "AsyncFunction"){
+                    got
+                        .then((resolved: any) => got = resolved)
+                        .catch((exception: any) => got = exception)
+                }
             }
             catch (exception) {
                 got = exception;
