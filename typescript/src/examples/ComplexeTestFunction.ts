@@ -9,7 +9,7 @@ export class Authenticator{
 
 export class SimpleTest extends Authenticator{
 
-    //@test
+    @test
     public async _authenticateUser({ login, password }: { login: string; password: string; } = { login: "user", password: "pass"}): Promise<any> {
         throw new Error("user not found");
     }

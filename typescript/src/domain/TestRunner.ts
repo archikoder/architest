@@ -1,4 +1,4 @@
 export interface TestRunner{
 
-    run(): Promise<boolean>;
+    run(filter: any): Promise<boolean>;
 }

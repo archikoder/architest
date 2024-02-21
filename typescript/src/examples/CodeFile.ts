@@ -7,7 +7,7 @@ export class TypescriptRootFolder extends FilesystemCodeFile{
         super("src/domain", "../")
     }
 
-    // @test
+    @test
     relativePath(): string {
         return "typescript/src/domain"
     }
@@ -18,12 +18,12 @@ export class ArchitestRootFolder extends FilesystemCodeFile{
     filePath = "src/examples";
     root = "../..";
 
-    // @test
+    @test
     path(): string {
         return "src/examples";
     }
 
-    // @test
+    @test
     relativePath(): string {
         return "architest/typescript/src/examples"
     }

@@ -29,7 +29,7 @@ const runner = new SynchronTestRunner(
 
 console.log("ARCHITEST");
 
-runner.run()
+runner.run({filter: process.argv.length > 2 ? process.argv[2] : ""})
             .then((done: any) => {
                 console.log("\nDone in", new Date().getTime() - startTime, "milliseconds")
             })

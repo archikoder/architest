@@ -10,9 +10,15 @@ export class SynchronTestRunner implements TestRunner {
         private invalidAssertionHandler: AssertionHandler,
         private invalidFunctionHandler: AssertionHandler) { }
 
-    async run(): Promise<boolean> {
+    async run({filter}: any): Promise<boolean> {
 
-        const testItems = this.program.tests();
+        const testItems = this.program.tests().filter(testItem => {
+
+            if(filter && filter != "")
+                return (testItem.class() + " -> " + testItem.method() as String).includes(filter);
+
+            return true;
+        })
 
         // VERBOSE
         console.log("Program root:", this.configuration.programFolder())
