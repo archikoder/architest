@@ -52,7 +52,14 @@ function parseFile(file: CodeFile) {
                 const testClassName = parent.class;
                 const methodName = parent.method;
                 const lineNumber = node.pos;
-                tests.push(new DefaultTestItem(file, testClassName, className, methodName, lineNumber))
+                tests.push(new DefaultTestItem(file, testClassName, className, methodName, lineNumber, 100))
+            } else if (ts.isDecorator(node)) {
+                const score = Number((node.expression as any).arguments[0].text);
+                const className = parent.class;
+                const testClassName = parent.class;
+                const methodName = parent.method;
+                const lineNumber = node.pos;
+                tests.push(new DefaultTestItem(file, testClassName, className, methodName, lineNumber, score))
             }
         })
     }

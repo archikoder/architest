@@ -6,4 +6,5 @@ export interface TestItem{
     testClass(): string;
     method(): string;
     line(): number;
+    score(): number;
 }

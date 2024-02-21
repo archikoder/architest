@@ -2,6 +2,14 @@ import * as ts from 'typescript';
 
 export function test(target: any, propertyKey?: any, descriptor?: any) {
 
+    if(!propertyKey)
+        return methodDecorator;
+
+    return methodDecorator(target, propertyKey, descriptor);
+}
+
+function methodDecorator(target: any, propertyKey?: any, descriptor?: any){
+
     if (propertyKey && descriptor) {
 
         const expectedFunction = descriptor.value;

@@ -3,7 +3,7 @@ import { TestItem } from "../domain/TestItem";
 
 export class DefaultTestItem implements TestItem {
 
-    constructor(private file: CodeFile, private testClassName: string, private className: string, private methodName: string, private lineNumber: number){}
+    constructor(private file: CodeFile, private testClassName: string, private className: string, private methodName: string, private lineNumber: number, private targetScore: number){}
 
     class(): string {
         return this.className;
@@ -27,6 +27,10 @@ export class DefaultTestItem implements TestItem {
 
     method(): string {
         return this.methodName;
+    }
+
+    score(): number{
+        return this.targetScore;
     }
     
 }

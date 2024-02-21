@@ -27,20 +27,29 @@ export class SynchronTestRunner implements TestRunner {
             const targetObject = new targetClass[testItem.class()]();
             const targetFunction = targetObject[testItem.method()];
 
-            if(!targetFunction || !targetFunction.test){
+            if (!targetFunction || !targetFunction.test) {
                 this.invalidFunctionHandler.handle(testItem);
                 continue;
             }
 
-            let expected;
+            let expected: any;
+            let expected_result_mode = "RETURN";
             try {
 
-                if(targetFunction.test.constructor.name === "AsyncFunction"){
+                if (targetFunction.test.constructor.name === "AsyncFunction") {
+                    expected_result_mode = "PROMISE"
                     await targetFunction.test.call(targetObject)
-                        .then((resolved: any) => expected = resolved)
-                        .catch((exception: any) => expected = exception)
+                        .then((resolved: any) => {
+                            expected_result_mode = "RESOLVED"
+                            expected = resolved
+                        })
+                        .catch((exception: any) => {
+                            expected_result_mode = "REJECTED"
+                            expected = exception
+                        })
                 }
-                else{
+                else {
+                    expected_result_mode = "CATCHED"
                     expected = targetFunction.test.call(targetObject);
                 }
             }
@@ -48,15 +57,24 @@ export class SynchronTestRunner implements TestRunner {
                 expected = exception;
             }
 
-            let got;
+            let got: any;
+            let got_result_mode = "RETURN";
             try {
 
-                if(targetFunction.constructor.name === "AsyncFunction"){
+                if (targetFunction.constructor.name === "AsyncFunction") {
+                    got_result_mode = "PROMISE"
                     await targetFunction.call(targetObject)
-                        .then((resolved: any) => got = resolved)
-                        .catch((exception: any) => got = exception)
+                        .then((resolved: any) => {
+                            got_result_mode = "RESOLVED"
+                            got = resolved
+                        })
+                        .catch((exception: any) => {
+                            got_result_mode = "REJECTED"
+                            got = exception
+                        })
                 }
-                else{
+                else {
+                    got_result_mode = "CATCHED"
                     got = targetFunction.call(targetObject);
                 }
             }
@@ -69,8 +87,26 @@ export class SynchronTestRunner implements TestRunner {
                 this.validAssertionHandler.handle(testItem);
             }
             catch (exception: any) {
-                result = false;
-                this.invalidAssertionHandler.handle(testItem, exception);
+
+                let score = 0;
+
+                if (typeof (expected) === typeof (got))
+                    score += 50;
+
+                if (got_result_mode === expected_result_mode)
+                    score += 25;
+
+                if (Object.keys(expected).length === Object.keys(got).length) {
+                    score += 12.5;
+                    score += (Object.keys(expected).reduce((acc, current) => acc + (expected[current] == got[current] ? 1 : 0), 0) * 12.5) / Object.keys(expected).length
+                }
+
+                if (score >= testItem.score())
+                    this.validAssertionHandler.handle(testItem, undefined, score, testItem.score());
+                else {
+                    result = false;
+                    this.invalidAssertionHandler.handle(testItem, exception, score, testItem.score());
+                }
             }
         }
 
