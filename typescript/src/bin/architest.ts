@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ts-node --skipProject
 
 import { Configuration } from "../domain";
 import {
