@@ -35,22 +35,31 @@ function replaceFunctionBody(_function: string, _metadata: any): Function {
     let functionName = "";
     let parameters: String[] = [];
     let functionBody = "";
+    let isAsync = false;
 
     sourceFile.statements.forEach(node => {
-        if(ts.isExpressionStatement(node)){
-            if(ts.isCallExpression(node.expression)){
+
+        if (ts.isExpressionStatement(node)) {
+
+            if (ts.isIdentifier(node.expression))
+                isAsync = node.expression.getText() === "async";
+
+            if (ts.isCallExpression(node.expression)) {
+
                 functionName = node.expression.expression.getText();
+
                 node.expression.arguments.forEach(argument => {
-                    if(ts.isBinaryExpression(argument))
+
+                    if (ts.isBinaryExpression(argument))
                         parameters.push(argument.left.getText());
-                    else{
+                    else {
                         console.warn(`\x1B[33m[WARN] Default value for test method not specified [ ${_metadata.class} -> ${_metadata.method} -> ${argument.getText()} ] ... Your test result could be wrong\x1B[0m`);
                         parameters.push(argument.getText())
                     }
                 })
             }
         }
-        if(ts.isBlock(node)){
+        if (ts.isBlock(node)) {
             functionBody = node.getText();
         }
     });
@@ -66,10 +75,13 @@ function replaceFunctionBody(_function: string, _metadata: any): Function {
     `;
 
     let replacedFunctionString;
-    const functionBlockIndex = functionString.lastIndexOf(functionBody);
 
-    if(functionBlockIndex > -1)
-        replacedFunctionString = functionString.substring(0, functionBlockIndex) + `{ ${replacedBody} }`;
+    let finalFunctionString = functionString.replace("async ", "");
+    
+    const functionBlockIndex = finalFunctionString.lastIndexOf(functionBody);
 
-    return new Function("return function " + (replacedFunctionString || 'invalidFunction(){console.log("error parsing function")}'))();
+    if (functionBlockIndex > -1)
+        replacedFunctionString = finalFunctionString.substring(0, functionBlockIndex) + `{ ${replacedBody} }`;
+
+    return new Function(`return ${isAsync ? "async" : "" } function ` + (replacedFunctionString || 'invalidFunction(){console.log("error parsing function")}'))();
 }

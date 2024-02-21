@@ -2,7 +2,7 @@ import { test } from '../lib/Decorator';
 
 export class Authenticator{
 
-    public _authenticateUser({login, password}: { login: string, password: string }){
+    public async _authenticateUser({login, password}: { login: string, password: string }){
         return { login, password };
     }
 
@@ -16,7 +16,7 @@ export class Authenticator{
 export class SimpleTest extends Authenticator{
 
     @test
-    public _authenticateUser({ login, password } = { login: "user", password: "pass"}) {
+    public async _authenticateUser({ login, password }: { login: string; password: string; } = { login: "user", password: "pass"}) {
         return {
             login: "user",
             password: "pass"
