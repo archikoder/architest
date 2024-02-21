@@ -1,6 +1,6 @@
 {
   "name": "@archikoder/architest",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "ArchiTest implementation for typescript",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "ts-node ./src/bin/architest.ts"
+    "test": "ts-node --skipProject ./src/bin/architest.ts"
   },
   "keywords": [
     "unit",
