@@ -1,17 +1,12 @@
 import { Configuration } from "../domain/Configuration";
 const fs = require('fs');
 
-const DEFAULT_ES_VERSION = "es2020";
-const DEFAULT_PROGRAM_FOLDER = "./";
+const TEST_PROGRAM_FOLDER = "./";
 
 export class SourceTsconfigConfiguration implements Configuration{
 
-    target(): string {
-        return this.parseTsConfigFile().compilerOptions?.target || DEFAULT_ES_VERSION;
-    }
-
-    programFolder(): string {
-        return this.parseTsConfigFile().compilerOptions?.rootDir || DEFAULT_PROGRAM_FOLDER;
+    testFolder(): string {
+        return this.parseTsConfigFile().architest?.root || TEST_PROGRAM_FOLDER;
     }
 
     private parseTsConfigFile(){

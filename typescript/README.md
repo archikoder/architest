@@ -94,9 +94,18 @@ ArchiTest's main target is to be the simplest test framework possible. Each item
 
 ## Configuration
 
-Configurations are taken from your "tsconfig.json" file.
+Architest can work without configuration: using the project root folder as tests root.
 
-If you have troubles running ArchiTest, verify properties like "target" and "rootDir" as they are the only ones used for now.
+You can customize the configuration in your tsconfig file.
+
+```json
+    {
+        ...
+        "architest": {
+            "root": "./tests"
+        }
+    }
+```
 
 ## Contribute
 

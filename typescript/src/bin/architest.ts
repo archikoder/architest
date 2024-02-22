@@ -18,7 +18,7 @@ const configuration: Configuration = new SourceTsconfigConfiguration();
 const runner = new SynchronTestRunner(
     new TypescriptParsedProgram(
         new NodeProgramFolder(
-            configuration.programFolder()
+            configuration.testFolder()
         )
     ),
     configuration,

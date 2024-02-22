@@ -21,15 +21,14 @@ export class SynchronTestRunner implements TestRunner {
         })
 
         // VERBOSE
-        console.log("Program root:", this.configuration.programFolder())
-        console.log("Target:", this.configuration.target())
+        console.log("Test root:", this.configuration.testFolder())
         console.log("Found", testItems.length, "test items", "\n");
 
         let result: boolean = true;
 
         for (const testItem of testItems) {
 
-            const joined_path = path.join(process.cwd(), this.configuration.programFolder(), testItem.relativePath());
+            const joined_path = path.join(process.cwd(), this.configuration.testFolder(), testItem.relativePath());
             
             let targetClass;
             try{
