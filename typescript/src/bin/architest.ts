@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env tsx --tsconfig node_modules/@archikoder/architest/src/tsconfig.json
 
 import { Configuration } from "../domain";
 import {
