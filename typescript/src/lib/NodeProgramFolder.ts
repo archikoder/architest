@@ -6,10 +6,10 @@ import * as path from 'path'
 
 export class NodeProgramFolder implements ProgramFolder {
 
-    constructor(private _path: string) {}
+    constructor(private _path: string) { }
 
     exportedClasses(extension: string = ".js"): CodeFile[] {
-        
+
         return traverseDirectory(this._path, this._path, extension);
     }
 }
@@ -21,16 +21,28 @@ function traverseDirectory(currentPath: string, rootPath: string, extension: str
 
     items.forEach((item: any) => {
 
-        const itemPath = path.join(currentPath, item);
-        const stat = fs.statSync(itemPath);
+        if (!isIgnored(currentPath)) {
+            const itemPath = path.join(currentPath, item);
+            const stat = fs.statSync(itemPath);
 
-        if (stat.isDirectory()) {
-            files = files.concat(traverseDirectory(itemPath, rootPath, extension));
-        } else if (stat.isFile() && (extension && path.extname(item) === extension)) {
-            files.push(new FilesystemCodeFile(itemPath, rootPath));
+            if (stat.isDirectory()) {
+                files = files.concat(traverseDirectory(itemPath, rootPath, extension));
+            } else if (stat.isFile() && (extension && path.extname(item) === extension)) {
+                files.push(new FilesystemCodeFile(itemPath, rootPath));
+            }
         }
+
     });
 
     return files;
 }
 
+function isIgnored(path: string){
+    return [
+        "node_modules",
+        ".git",
+        "dist",
+        ".idea",
+        ".vscode"
+    ].includes(path);
+}

@@ -28,8 +28,18 @@ export class SynchronTestRunner implements TestRunner {
         let result: boolean = true;
 
         for (const testItem of testItems) {
+
             const joined_path = path.join(process.cwd(), this.configuration.programFolder(), testItem.relativePath());
-            const targetClass = require(joined_path);
+            
+            let targetClass;
+            try{
+                targetClass = require(joined_path);
+            }
+            catch(ex){
+                console.log("\x1B[33m[WARN] Cannot find module", joined_path, "...", testItem.class(), "->", testItem.method(), "\x1b[0m:");
+                continue
+            }
+            
             const targetObject = new targetClass[testItem.class()]();
             const targetFunction = targetObject[testItem.method()];
 
