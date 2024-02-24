@@ -11,13 +11,13 @@ npm install -D @archikoder/architest
 
 ## How to use
 
-For the sake of simplicity, the decorator "test" is the only thing that you have to import.
+For the sake of simplicity, the decorator _"test"_ is the only thing that you have to import.
 
 ```typescript
 import { test } from '@archikoder/architest';
 ```
 
-And in your "package.json" file, add the script
+And in your _"package.json"_ file, add the script
 ```json
 {
     "scpipts": {
@@ -48,7 +48,7 @@ As @0x5afe manifest for ArchiTest (https://twitter.com/0x5afe/status/17549318209
 
 ## Example
 
-Suppose we have the class "Converter" defined below and we want to test its behavioural "convert" method.
+Suppose we have the class _"Converter"_ defined below and we want to test its behavioural _"convert"_ method.
 ```typescript
 // file Converter.ts
 import { test } from "@archikoder/architest";
@@ -66,7 +66,7 @@ export class Converter {
     }
 }
 ```
-We want to make sure that if the rate is "5", "convert(7)" should give us the number "35"
+We want to make sure that if the rate is _"5"_, _"convert(7)"_ should give us the number _"35"_
 
 Here is a test class using Archikoder (You can place your test files wherever you want, we suggest to place it in the same file as the class you test)
 
@@ -92,6 +92,31 @@ This section is left blank.
 
 ArchiTest's main target is to be the simplest test framework possible. Each item that would be in this section will be considered a failure.
 
+### Watch mode
+To run tests in watch mode and rerun tests for every changes in code, add the option _"--watch"_ in your script
+
+```json
+{
+    "scpipts": {
+        "test": "architest --watch",
+    }
+}
+```
+
+### Only run specific tests
+Tor run specific tests, add as argument a string from your test name
+
+```bash
+# run all test methods in the class "MyFirstTest"
+npm run test MyFirstTest
+# run only the test for method "Convert" in test class "MyFirstTest"
+npm run test "MyFirstTest -> Convert"
+# run only tests for classes ending with "est" and methods starting with "Con"
+npm run test "est -> Con"
+# run only tests for methods name starting with "Convert"
+npm run test "-> Convert"
+```
+
 ## Configuration
 
 Architest can work without configuration: using the project root folder as tests root.
@@ -99,12 +124,12 @@ Architest can work without configuration: using the project root folder as tests
 You can customize the configuration in your tsconfig file.
 
 ```json
-    {
-        //...
-        "architest": {
-            "root": "./tests"
-        }
+{
+    //...
+    "architest": {
+        "root": "./tests"
     }
+}
 ```
 
 ## Contribute
