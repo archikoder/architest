@@ -100,7 +100,7 @@ You can customize the configuration in your tsconfig file.
 
 ```json
     {
-        ...
+        //...
         "architest": {
             "root": "./tests"
         }

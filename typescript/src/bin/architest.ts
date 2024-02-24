@@ -1,5 +1,3 @@
-#!/usr/bin/env tsx --tsconfig node_modules/@archikoder/architest/src/tsconfig.json
-
 import { Configuration } from "../domain";
 import {
     ConsoleValidAssertionHandler,
@@ -10,6 +8,7 @@ import {
 } from "../lib";
 import { InvalidFunctionHandler } from "../lib/InvalidFunctionHandler";
 import { TypescriptParsedProgram } from "../lib/TypescriptParsedProgram";
+import { ShellArgument } from "./ShellArgument";
 
 const startTime = new Date().getTime();
 
@@ -29,11 +28,11 @@ const runner = new SynchronTestRunner(
 
 console.log("ARCHITEST");
 
-runner.run({filter: process.argv.length > 2 ? process.argv[2] : ""})
+runner.run({filter: new ShellArgument(process.argv).testName()})
             .then((done: any) => {
                 console.log("\nDone in", new Date().getTime() - startTime, "milliseconds")
             })
             .catch((exception: any) => {
-
+                console.log("\nError running tests", exception)
             })
 

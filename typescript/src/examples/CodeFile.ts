@@ -4,12 +4,12 @@ import { test } from "../lib/Decorator";
 export class TypescriptRootFolder extends FilesystemCodeFile{
 
     constructor(){
-        super("src/domain", "../")
+        super("src/domain", "../");
     }
 
     @test
     relativePath(): string {
-        return "typescript/src/domain"
+        return "typescript/src/domain";
     }
 }
 
@@ -25,6 +25,6 @@ export class ArchitestRootFolder extends FilesystemCodeFile{
 
     @test
     relativePath(): string {
-        return "architest/typescript/src/examples"
+        return "architest/typescript/src/examples";
     }
 }
