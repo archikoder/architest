@@ -1,15 +1,15 @@
 {
   "name": "@archikoder/architest",
-  "version": "0.5.19",
+  "version": "0.5.21",
   "description": "ArchiTest implementation for typescript",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "architest": "./dist/bin/architest.sh"
+    "architest": "./dist/bin/architest-command.js --watch"
   },
   "scripts": {
-    "build": "tsc ; cp src/bin/architest.sh dist/bin",
-    "test": "npm run build ; ./dist/bin/architest.sh --watch"
+    "build": "tsc",
+    "test": "npm run build ; ./dist/bin/architest-command.js"
   },
   "keywords": [
     "unit",

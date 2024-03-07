@@ -35,7 +35,7 @@ export class SynchronTestRunner implements TestRunner {
                 targetClass = require(joined_path);
             }
             catch(ex){
-                console.log("\x1B[33m[WARN] Cannot find module", joined_path, "...", testItem.class(), "->", testItem.method(), "\x1b[0m:");
+                console.log("\x1B[33m[WARN]", ex, joined_path, "->", testItem.class(), "->", testItem.method(), "\x1b[0m:");
                 continue
             }
             
@@ -111,7 +111,7 @@ export class SynchronTestRunner implements TestRunner {
                 if (got_result_mode === expected_result_mode)
                     score += 25;
 
-                if (Object.keys(expected).length === Object.keys(got).length) {
+                if (Object.keys(expected).length && (Object.keys(expected).length === Object.keys(got).length)) {
                     score += 12.5;
                     score += (Object.keys(expected).reduce((acc, current) => acc + (expected[current] == got[current] ? 1 : 0), 0) * 12.5) / Object.keys(expected).length
                 }

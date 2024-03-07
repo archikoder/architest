@@ -14,4 +14,8 @@ export class ShellArgument implements Argument{
         return args.filter(arg => !arg.startsWith("--"))[0];
     }
     
+    haveWatchFlag(): boolean {
+
+        return this.args.includes("--watch");
+    }
 }
