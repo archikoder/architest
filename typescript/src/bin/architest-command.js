@@ -9,7 +9,7 @@ const { CommandParameters } = require("./CommandParameters");
 const shellArguments = new ShellArgument(process.argv);
 const commandParameters = new CommandParameters(shellArguments, path.join(__dirname));
 
-const shellCommand = spawn("tsx", commandParameters.asArray());
+const shellCommand = spawn("tsx", commandParameters.asArray(), {shell: true});
 
 shellCommand.stdout.on('data', function (data) {
   process.stdout.write(data);
