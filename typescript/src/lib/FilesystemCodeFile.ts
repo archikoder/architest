@@ -5,6 +5,10 @@ export class FilesystemCodeFile implements CodeFile{
 
     constructor(protected filePath: string, protected root: string){}
 
+    absolutePath(): string {
+        return path.resolve(this.filePath);
+    }
+
     path(): string {
         return this.filePath;
     }

@@ -10,6 +10,8 @@ import { InvalidFunctionHandler } from "../lib/InvalidFunctionHandler";
 import { TypescriptParsedProgram } from "../lib/TypescriptParsedProgram";
 import { ShellArgument } from "./ShellArgument";
 
+console.log("ARCHITEST");
+
 const startTime = new Date().getTime();
 
 const configuration: Configuration = new SourceTsconfigConfiguration();
@@ -26,8 +28,6 @@ const runner = new SynchronTestRunner(
     new ConsoleInvalidAssertionHandler(),
     new InvalidFunctionHandler()
 );
-
-console.log("ARCHITEST");
 
 runner.run({filter: new ShellArgument(process.argv).testName()})
             .then((done: any) => {

@@ -1,5 +1,6 @@
 export interface TestItem{
 
+    absolutePath(): string;
     path(): string;
     relativePath(): string;
     class(): string;

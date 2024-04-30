@@ -5,6 +5,10 @@ export class DefaultTestItem implements TestItem {
 
     constructor(private file: CodeFile, private testClassName: string, private className: string, private methodName: string, private lineNumber: number, private targetScore: number){}
 
+    absolutePath(): string {
+        return this.file.absolutePath();
+    }
+
     class(): string {
         return this.className;
     }
