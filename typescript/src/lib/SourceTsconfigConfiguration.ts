@@ -22,7 +22,7 @@ export class SourceTsconfigConfiguration implements Configuration{
         }
         catch (error) {
             
-            console.log("tsconfig.json is not found or contains invalid or non-supported structure: using current folder as program root")
+            console.warn("\x1B[33mtsconfig.json is not found or contains invalid or non-supported structure: using current folder as program root\x1B[0m")
             return {};
         }
     }

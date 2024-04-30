@@ -7,4 +7,5 @@ export interface TestItem{
     method(): string;
     line(): number;
     score(): number;
+    stringFormat(): string;
 }

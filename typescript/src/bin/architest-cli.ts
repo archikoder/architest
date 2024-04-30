@@ -13,14 +13,15 @@ import { ShellArgument } from "./ShellArgument";
 const startTime = new Date().getTime();
 
 const configuration: Configuration = new SourceTsconfigConfiguration();
+const testFolder: string = configuration.testFolder();
 
 const runner = new SynchronTestRunner(
     new TypescriptParsedProgram(
         new NodeProgramFolder(
-            configuration.testFolder()
+            testFolder
         )
     ),
-    configuration,
+    testFolder,
     new ConsoleValidAssertionHandler(),
     new ConsoleInvalidAssertionHandler(),
     new InvalidFunctionHandler()

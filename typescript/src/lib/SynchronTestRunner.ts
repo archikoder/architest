@@ -4,42 +4,54 @@ import * as assert from 'assert'
 
 export class SynchronTestRunner implements TestRunner {
 
-    constructor(private program: ParsedProgram,
-        private configuration: Configuration,
+    constructor(
+        private program: ParsedProgram,
+        private testFolder: string,
         private validAssertionHandler: AssertionHandler,
         private invalidAssertionHandler: AssertionHandler,
         private invalidFunctionHandler: AssertionHandler) { }
 
     async run({filter}: any): Promise<boolean> {
 
+        // specific tests
         const testItems = this.program.tests().filter(testItem => {
 
             if(filter && filter != "")
-                return (testItem.class() + " -> " + testItem.method() as String).includes(filter);
+                return testItem.stringFormat().includes(filter);
 
             return true;
         })
 
         // VERBOSE
-        console.log("Test root:", this.configuration.testFolder())
+        console.log("Test root:", this.testFolder)
         console.log("Found", testItems.length, "test items", "\n");
 
         let result: boolean = true;
 
         for (const testItem of testItems) {
-
-            const joined_path = path.join(process.cwd(), this.configuration.testFolder(), testItem.relativePath());
+            
+            const joined_path = path.join(process.cwd(), this.testFolder, testItem.relativePath());
             
             let targetClass;
             try{
                 targetClass = require(joined_path);
             }
             catch(ex){
-                console.log("\x1B[33m[WARN]", ex, joined_path, "->", testItem.class(), "->", testItem.method(), "\x1b[0m:");
+                console.log("\n\x1B[33m[WARN]", testItem.stringFormat(), "\x1b[0m");
+                console.log("\x1B[33m[WARN]", "Failed to import module ", joined_path, "\x1b[0m");
                 continue
             }
             
-            const targetObject = new targetClass[testItem.class()]();
+            let targetObject;
+            try{
+                targetObject = new targetClass[testItem.testClass()]();
+            }
+            catch(ex){
+                console.log("\n\x1B[33m[WARN]", testItem.stringFormat(), "\x1b[0m");
+                console.log("\x1B[33m[WARN]", "Failed to instanciate class", testItem.testClass(), ":", "Check that your class is exported!", "\x1b[0m");
+                continue;
+            }
+
             const targetFunction = targetObject[testItem.method()];
 
             if (!targetFunction || !targetFunction.test) {

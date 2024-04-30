@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts, { SyntaxKind } from "typescript";
 import fs from 'fs'
 import { CodeFile, ParsedProgram, ProgramFolder, TestItem } from "../domain";
 import { DefaultTestItem } from "./DefaultTestItem";
@@ -42,20 +42,21 @@ function parseFile(file: CodeFile) {
             if (ts.isSourceFile(node)) {
                 visitNode(node.statements as any);
             } else if (ts.isClassDeclaration(node)){
-                visitNode(node.members as any, { class: node.name?.escapedText })
+                const target: any = node.heritageClauses?.find(heritageClause => heritageClause.token == SyntaxKind.ExtendsKeyword)?.types[0].expression;
+                visitNode(node.members as any, { class: node.name?.escapedText, target: target?.escapedText })
             } else if(ts.isAccessor(node)){
                 visitNode(node.modifiers as any || [], { ...parent, method: (node.name as ts.Identifier).escapedText })
             } else if (ts.isMethodDeclaration(node)){
                 visitNode(node.modifiers as any || [], { ...parent, method: (node.name as ts.Identifier).escapedText })
             } else if (ts.isDecorator(node) && (node.expression as any).escapedText === 'test') {
-                const className = parent.class;
+                const className = parent.target;
                 const testClassName = parent.class;
                 const methodName = parent.method;
                 const lineNumber = node.pos;
                 tests.push(new DefaultTestItem(file, testClassName, className, methodName, lineNumber, 100))
             } else if (ts.isDecorator(node)) {
                 const score = Number((node.expression as any).arguments[0].text);
-                const className = parent.class;
+                const className = parent.target;
                 const testClassName = parent.class;
                 const methodName = parent.method;
                 const lineNumber = node.pos;

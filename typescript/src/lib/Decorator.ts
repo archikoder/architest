@@ -22,7 +22,7 @@ function methodDecorator(target: any, propertyKey?: any, descriptor?: any){
 
     if (propertyKey && (propertyKey as ClassMethodDecoratorContext).kind === "method") {
 
-        const replacement = replaceFunctionBody(target, { class: "Unknown class", method: propertyKey.name });
+        const replacement = replaceFunctionBody(target, { class: "UnknownClass", method: propertyKey.name });
         (replacement as any).test = target;
 
         return replacement;

@@ -33,4 +33,7 @@ export class DefaultTestItem implements TestItem {
         return this.targetScore;
     }
     
+    stringFormat(): string {
+        return `${this.class()} -> ${this.testClass()} -> ${this.method()}`;
+    }
 }

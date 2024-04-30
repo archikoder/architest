@@ -13,7 +13,7 @@ export class CommandParameters{
 
         commandParameters.push("--tsconfig");
         commandParameters.push(`${this.workingDirectory}/../../tsconfig.architest.json`);
-        commandParameters.push(`${this.workingDirectory}/architest.js`);
+        commandParameters.push(`${this.workingDirectory}/architest-cli.js`);
 
         if(this.args.testName())
         commandParameters.push(`"${this.args.testName()}"`);
